@@ -5,8 +5,8 @@ public:
     double length;
     void setLength(double len);
     double getLength(void);
-    Line();             //¹¹Ôìº¯ÊıÉùÃ÷
-    ~Line();            //Îö¹¹º¯ÊıÉùÃ÷
-    Line(double len);   //¹¹Ôìº¯ÊıÉùÃ÷
+    Line();             //æ„é€ å‡½æ•°å£°æ˜
+    ~Line();            //ææ„å‡½æ•°å£°æ˜
+    Line(double len);   //æ„é€ å‡½æ•°å£°æ˜
 };
 

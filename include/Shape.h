@@ -14,13 +14,13 @@ namespace myShape {
             width = a;
             height = b;
         }
-        //±ØÐëÌí¼Ó¹Ø¼ü×Ö virtual
+        //å¿…é¡»æ·»åŠ å…³é”®å­— virtual
         virtual int area()
         {
             cout << "Parent class area :" << endl;
             return 0;
         }
-        //virtual int area2() = 0;//ÅÉÉúÀà±ØÐëÊµÏÖ´ËÐéº¯Êý
+        //virtual int area2() = 0;//æ´¾ç”Ÿç±»å¿…é¡»å®žçŽ°æ­¤è™šå‡½æ•°
     };
 
     class Rectangle : public Shape {

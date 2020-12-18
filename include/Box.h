@@ -2,15 +2,15 @@
 class Box
 {
 private:
-    double length;         // 长度
-    double breadth;        // 宽度
-    double height;         // 高度
+    double length;         // 闀垮害
+    double breadth;        // 瀹藉害
+    double height;         // 楂樺害
 
 protected:
     double width;
 
 public:
-    // 成员函数声明
+    // 鎴愬憳鍑芥暟澹版槑
     double getVolume(void);
     void setLength(double len);
     void setBreadth(double bre);

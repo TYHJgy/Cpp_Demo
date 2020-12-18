@@ -3,7 +3,7 @@
 
 using namespace std;
 
-//¹¹Ôìº¯Êý
+//æž„é€ å‡½æ•°
 Line::Line(void)
 {
     cout << "Object is being created" << endl;
@@ -13,12 +13,12 @@ Line::Line(double len)
     cout << "Object is being created, length = " << len << endl;
     length = len;
 }
-//Îö¹¹º¯Êý
+//æžæž„å‡½æ•°
 Line::~Line(void)
 {
     cout << "Object is being deleted" << endl;
 }
-//³ÉÔ±º¯Êý
+//æˆå‘˜å‡½æ•°
 double Line::getLength(void)
 {
     return length;

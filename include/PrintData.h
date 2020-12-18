@@ -5,15 +5,15 @@ class PrintData
 {
 public:
     void print(int i) {
-        cout << "ÕûÊýÎª: " << i << endl;
+        cout << "æ•´æ•°ä¸º: " << i << endl;
     }
 
     void print(double  f) {
-        cout << "¸¡µãÊýÎª: " << f << endl;
+        cout << "æµ®ç‚¹æ•°ä¸º: " << f << endl;
     }
 
     void print(char c[]) {
-        cout << "×Ö·û´®Îª: " << c << endl;
+        cout << "å­—ç¬¦ä¸²ä¸º: " << c << endl;
     }
 };
 
