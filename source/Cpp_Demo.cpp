@@ -1,13 +1,14 @@
-﻿#include <iostream>
+﻿
+#include <iostream>
+#include <iomanip>
+#include <string.h>
+
 #include "Box.h"
 #include "Line.h"
 #include "SmallBox.h"
 #include "PrintData.h"
 #include "Shape.h"
-
-#include <iomanip>
-#include <pthread.h>
-
+#include "TestThread.h"
 
 using namespace std;
 using std::setw;
@@ -149,23 +150,16 @@ void testNewAndDelete() {
 
 
 }
-void* thread2_run(void* data)
-{
-	char* databuf = (char*)data;
-	while (1) {
-	}
-}
-void testThread2() {
-	cout << "testThread2" << endl;
 
-	pthread_t tidp1;
-	pthread_create(&tidp1, 0, thread2_run, NULL);
+void testThread() {
+	cout << "testThread" << endl;
+	TestThread testTread;
+	testTread.startTest();	
 }
 int main()
 {
-
 	cout << "main" << endl;
-#if 1
+#if 0
 	testBox();
 	testline();
 	testSmallBox();
@@ -175,7 +169,9 @@ int main()
 	testString();
 	testArray();
 	testNewAndDelete();
-	testThread2();
+	testThread();
 #endif
+	testThread();
+	while(1);
 	return 0;
 }

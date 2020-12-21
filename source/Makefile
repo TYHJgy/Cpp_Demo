@@ -2,32 +2,33 @@ LINK    = echo linking $@ && $(COMP)
 GCC     = @echo compiling $@ && g++
 GC      = @echo compiling $@ && $(COMP)
 AR      = @echo generating static library $@ && ar crv
-FLAGS   = -Wl,-Bsymbolic -fvisibility=hidden -fPIC	
-GCCFLAGS =
+FLAGS   = -Wl,-Bsymbolic -fvisibility=hidden -fPIC 
+GCCFLAGS = -fpermissive
 DEFINES =
 HEADER  = -I../include
 LIBS    = -lm
-#编译库文件使用
-#LINKFLAGS = -shared 
+#LINKFLAGS = -shared #缂栬瘧鍔ㄦ�佸簱
 
-#目标文件名。此处为libcurl.so，动态库一般以lib为前缀
 TARGET	= cpp_demo.out
 
-#编译后未连接的中间文件，每一个.c或.cpp对应于这里一个.o文件,多个.o可以用空格分开,也可用"\"换行,然后写在新一行
-OBJECT := Cpp_Demo.o SmallBox.o Shape.o PrintData.o Person.o Line.o Box.o
+OBJECT := 	Cpp_Demo.o \
+			SmallBox.o \
+			Shape.o \
+			PrintData.o \
+			Person.o \
+			Line.o \
+			Box.o \
+			TestThread.o \
+			TestThread_std.o\
+			TestVector.o
 
-#添加库文件
 LIBS    +=  -pthread 
-
-#源码版本
+FLAGS	+=  -std=gnu++11 #c++11
 VERSION	=
 
-#源码路径
 MSPATH	= /mnt/hgfs/Shared_linux_windows/study/cpp/Cpp_Demo
 
-#编译器
 COMP	= g++
-
 
 
 $(TARGET): $(OBJECT)
