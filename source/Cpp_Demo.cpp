@@ -9,6 +9,7 @@
 #include "PrintData.h"
 #include "Shape.h"
 #include "TestThread.h"
+#include "TestSocket.h"
 
 using namespace std;
 using std::setw;
@@ -150,12 +151,24 @@ void testNewAndDelete() {
 
 
 }
-
 void testThread() {
 	cout << "testThread" << endl;
 	TestThread testTread;
 	testTread.startTest();	
 }
+//测试段错误
+void testCoreDumps(){
+	int i = 0;
+	int j = 1/i;
+
+}
+
+//测试socket
+void testSocket(){
+	TestSocket testSocket;
+	testSocket.startTest();
+}
+
 int main()
 {
 	cout << "main" << endl;
@@ -170,8 +183,9 @@ int main()
 	testArray();
 	testNewAndDelete();
 	testThread();
+	testSocket();
 #endif
-	testThread();
+	testSocket();
 	while(1);
 	return 0;
 }

@@ -1,8 +1,8 @@
 LINK    = echo linking $@ && $(COMP)
-GCC     = @echo compiling $@ && g++
+GCC     = @echo compiling $@ && $(COMP)
 GC      = @echo compiling $@ && $(COMP)
 AR      = @echo generating static library $@ && ar crv
-FLAGS   = -Wl,-Bsymbolic -fvisibility=hidden -fPIC 
+FLAGS   = -Wl,-Bsymbolic -fvisibility=hidden -fPIC -g
 GCCFLAGS = -fpermissive
 DEFINES =
 HEADER  = -I../include
@@ -20,6 +20,7 @@ OBJECT := 	Cpp_Demo.o \
 			Box.o \
 			TestThread.o \
 			TestThread_std.o\
+			TestSocket.o\
 
 LIBS    +=  -pthread 
 FLAGS	+=  -std=gnu++11 #c++11
@@ -27,8 +28,7 @@ VERSION	=
 
 MSPATH	= /mnt/hgfs/Shared_linux_windows/study/cpp/Cpp_Demo
 
-COMP	= g++
-
+COMP	= g++ 
 
 $(TARGET): $(OBJECT)
 	$(LINK) $(FLAGS) $(LINKFLAGS) -o $@ $^ $(LIBS)
