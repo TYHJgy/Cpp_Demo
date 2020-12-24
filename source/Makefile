@@ -20,7 +20,6 @@ OBJECT := 	Cpp_Demo.o \
 			Box.o \
 			TestThread.o \
 			TestThread_std.o\
-			TestVector.o
 
 LIBS    +=  -pthread 
 FLAGS	+=  -std=gnu++11 #c++11

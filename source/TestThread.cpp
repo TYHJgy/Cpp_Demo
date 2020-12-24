@@ -1,13 +1,9 @@
 
 #include "TestThread.h"
 #include <iostream>
-#include <thread>
+#include <pthread.h>
 
 using namespace std;
-
-static void test(){
-	cout << "test" << endl;
-}
 
 static void * linux_thread_run(void * data)
 {
@@ -18,7 +14,7 @@ static void * linux_thread_run(void * data)
 	}
 	const char * c = "123456";
 	cout << c[0]<<endl;
-	return NULL;
+	//return NULL;
 }
 
 unsigned int TestThread::getThreadNum(){
@@ -31,11 +27,10 @@ vector<pthread_t> TestThread::getPtid(){
 
 
 void TestThread::startTest(void){
-	cout << "startTest" << endl;
-	test();
 
+	cout << "startTest" << endl;
 	pthread_t pid;
-	int error = pthread_create(&pid,0,linux_thread_run,NULL);
+	int error = pthread_create(&pid,NULL,&linux_thread_run,NULL);
 	if(error != 0){
 		cerr << "Create pthread error!\n" << endl;
 	}else{
