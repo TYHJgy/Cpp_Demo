@@ -21,7 +21,14 @@ OBJECT := 	Cpp_Demo.o \
 			TestThread.o \
 			TestThread_std.o\
 			TestSocket.o\
-
+			Debug_printf.o\
+			TestTimeAndData.o\
+			TestList.o\
+			TestVector.o\
+			TestReferences.o\
+			TestTemplate.o\
+			TestException.o\
+			
 LIBS    +=  -pthread 
 FLAGS	+=  -std=gnu++11 #c++11
 VERSION	=
