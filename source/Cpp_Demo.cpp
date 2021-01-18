@@ -96,7 +96,6 @@ void testPrintData()
 	char c[] = "Hello C++";
 	pd.print(c);
 }
-
 //测试多态、命名空间、接口、抽象类、虚方法
 void testDerivedClass() {
 	cout << "enter testDerivedClass" << endl;
@@ -118,7 +117,6 @@ void testDerivedClass() {
 	shape->area();
 
 }
-
 //测试字符串
 void testString() {
 	cout << "enter testString" << endl;
@@ -126,6 +124,7 @@ void testString() {
 	string str1 = "Hello";
 	string str2 = "World";
 	string str3;
+	string str4 = "";;
 	int  len;
 
 	// 复制 str1 到 str3
@@ -139,6 +138,7 @@ void testString() {
 	// 连接后，str3 的总长度
 	len = (int)str3.size();
 	cout << "str3.size() :  " << len << endl;
+	cout << "str4.size() :  " << str4.size() << endl;
 
 }
 //测试数组
@@ -171,14 +171,12 @@ void testNewAndDelete() {
 	cout << "Value of pvalue : " << *pvalue << endl;
 	
 	delete pvalue;         // 释放内存
-
-
 }
 //测试C++线程
 void testThread() {
 	cout << "testThread" << endl;
 	TestThread testTread;
-	testTread.startTest();	
+	testTread.test_thread_lock();	
 }
 //测试段错误
 void testCoreDumps(){
@@ -189,7 +187,8 @@ void testCoreDumps(){
 //测试socket
 void testSocket(){
 	TestSocket testSocket;
-	testSocket.startTest();
+	//testSocket.startTestTCP();
+	testSocket.startTestUDP();
 }
 //测试时间
 void testTime() {
@@ -343,6 +342,28 @@ void testHuiBian(){
 	);
 
 	printf("result = %d\n", result);
+}
+
+void testIO(){
+
+	//标准输入流（cin）
+	cout << "标准输入流（cin）测试" << endl;
+	char name[50];	
+	cout << "请输入您的名称： ";
+	cin >> name;
+	cout << "您的名称是： " << name << endl;
+	
+	//标准错误流（cerr）
+	cout << "标准错误流（cerr）测试" << endl;
+	char str[] = "Unable to read....";
+	cerr << "Error message : " << str << endl;
+
+
+	//标准日志流（clog）
+	cout << "标准日志流（clog）测试" << endl;
+	char str2[] = "Unable to read....";
+	clog << "Error message : " << str2 << endl;
+
 
 }
 
@@ -372,7 +393,51 @@ int main()
 	testTime();
 	testSocket();
 #endif
-	testHuiBian();
+	testThread();
 	while(1);
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

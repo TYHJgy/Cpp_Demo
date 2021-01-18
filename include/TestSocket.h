@@ -2,7 +2,8 @@
 class TestSocket{
 
 public:
-	void startTest();
+	void startTestTCP();
+	void startTestUDP();
 };
 
 

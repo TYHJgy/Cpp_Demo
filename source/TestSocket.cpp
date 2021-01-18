@@ -12,13 +12,13 @@ using namespace std;
 static int _errno = 0;
 #define MAXLINE 4096 
 
-static void * pthread_socket_service(void * data){
+static void * pthread_socket_service_tcp(void * data){
 	DEBUG("enter");
 
 	struct sockaddr_in my_addr;
 	int connfd = 0;
 	char buf[64]={0};
-	
+	//
 	int sfd = socket(AF_INET,SOCK_STREAM,0);
     if (sfd == -1){
 		DEBUG("socket faile");
@@ -52,7 +52,7 @@ static void * pthread_socket_service(void * data){
 	close(sfd);
 	DEBUG("rec=%s",buf);
 }
-static void * pthread_socket_client(void * data){
+static void * pthread_socket_client_tcp(void * data){
 		char buf[1024]={0};
 		int sockfd, n; 
 		char recvline[4096];
@@ -100,7 +100,7 @@ static void * pthread_socket_client(void * data){
 
 }
 //socket实现http
-static void * pthread_socket_http(void * data){
+static void * pthread_socket_http_tcp(void * data){
 	char buf[1024]={0};
 	int sockfd, n; 
 	char recvline[4096];
@@ -157,16 +157,108 @@ Connection: keep-alive\r\nContent-Length: 25\r\n\r\n\
 
 }
 
+static void * pthread_socket_service_udp(void * data){
+	//创建socket
+	int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+	if (0 > sockfd)
+	{
+		 perror("sockfd");
+		 exit(0); 
+	}
 
-void TestSocket::startTest(){
-	cout << "TestSocket::startTest" << endl;
-	pthread_t pt1,pt2,pt3;
-	pthread_create(&pt1,NULL,pthread_socket_service,NULL);
-	sleep(2);
-	pthread_create(&pt2,NULL,pthread_socket_client,NULL);
-	//pthread_create(&pt3,NULL,pthread_socket_http,NULL);
+	//准备地址
+	struct sockaddr_in addr = {};
+	addr.sin_family = AF_INET;//ipv4
+	addr.sin_port = htons(12345);//端口号
+	addr.sin_addr.s_addr = htonl(INADDR_ANY);//自动获取ip
+	//绑定
+	int ret = bind(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+	if (0 > ret)
+	{
+		 perror("bind");
+		 exit(0); 
+	}
+	struct sockaddr_in src_addr;
+	socklen_t addr_len = sizeof(struct sockaddr_in);
+	char buf[255] = {};
+	//接收数据和来源的ip地址
+	if(recvfrom(sockfd,buf,sizeof(buf),0,(struct sockaddr*)&src_addr,&addr_len) < 0) 
+	{ 
+		DEBUG("read msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("read success");
+	}
+	DEBUG("sRecv=%s",buf);
+	
+	//发送数据给目标地址
+	if(sendto(sockfd,buf,strlen(buf)+1,0,(struct sockaddr*)&src_addr,addr_len) < 0) 
+	{ 
+		DEBUG("send msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("send success");
+	}
+	
+	DEBUG("the port = %d", addr.sin_port);
+	DEBUG("the port = %d", src_addr.sin_port);
+
+	//关闭socket对象
+	close(sockfd);
+}
+static void * pthread_socket_client_udp(void * data){
+	int sockfd = socket(AF_INET,SOCK_DGRAM,0);
+	if (0 > sockfd)
+	{
+		 perror("socket");
+		 exit(0); 
+	}
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(12345);
+	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	
+	socklen_t addr_len = sizeof(struct sockaddr_in);
+
+	char buf[255] = "test";
+	if(sendto(sockfd,buf,strlen(buf)+1,0,(struct sockaddr*)&addr,sizeof(addr)) < 0) 
+	{ 
+		DEBUG("send msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("send success");
+	}
+	if(recvfrom(sockfd,buf,sizeof(buf),0,(struct sockaddr*)&addr,&addr_len) < 0) 
+	{ 
+		DEBUG("read msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("read success");
+	}
+	DEBUG("cRecv=%s",buf);
+	DEBUG("the ipaddr = %#x", addr.sin_addr.s_addr);
+	DEBUG("the port = %d", addr.sin_port);
+	close(sockfd);
 }
 
+void TestSocket::startTestTCP(){
+	cout << "TestSocket::startTest" << endl;
+	pthread_t pt1,pt2,pt3;
+	pthread_create(&pt1,NULL,pthread_socket_service_tcp,NULL);
+	sleep(2);
+	pthread_create(&pt2,NULL,pthread_socket_client_tcp,NULL);
+	//pthread_create(&pt3,NULL,pthread_socket_http_tcp,NULL);
+}
+
+
+void TestSocket::startTestUDP(){
+	cout << "TestSocket::startTestUDP" << endl;
+	pthread_t pt1,pt2,pt3;
+	pthread_create(&pt1,NULL,pthread_socket_service_udp,NULL);
+	sleep(2);
+	pthread_create(&pt2,NULL,pthread_socket_client_udp,NULL);
+	//pthread_create(&pt3,NULL,pthread_socket_http,NULL);
+}
 
 
 
