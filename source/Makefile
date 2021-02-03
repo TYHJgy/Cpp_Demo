@@ -28,10 +28,11 @@ OBJECT := 	Cpp_Demo.o \
 			TestReferences.o\
 			TestTemplate.o\
 			TestException.o\
+			Test_volatile.o\
+			mydes.o\
 			
 LIBS    +=  -pthread 
 FLAGS	+=  -std=gnu++11 #c++11
-VERSION	=
 
 MSPATH	= /mnt/hgfs/Shared_linux_windows/study/cpp/Cpp_Demo
 
@@ -55,10 +56,10 @@ clean:
 	rm -rf *.out *.o *.so
 	
 update:
-	cp -rf $(MSPATH)$(VERSION)/ ../../
+	cp -rf $(MSPATH)/ ../../
 
 export:
-	cp -rf ../../$(VERSION) $(MSPATH) 
+	cp -rf ../* $(MSPATH) 
 
 
 	

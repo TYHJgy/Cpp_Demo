@@ -20,6 +20,7 @@
 #include "TestTemplate.h"
 #include "TestException.h"
 #include "TestTimeAndData.h"
+#include "Test_volatile.h"
 
 using namespace std;
 using std::setw;
@@ -160,7 +161,7 @@ void testArray() {
 	}
 
 }
-//测试动态内存
+//测试new动态内存
 void testNewAndDelete() {
 	cout << "enter testNewAndDelete" << endl;
 
@@ -176,7 +177,7 @@ void testNewAndDelete() {
 void testThread() {
 	cout << "testThread" << endl;
 	TestThread testTread;
-	testTread.test_thread_lock();	
+	testTread.test_pthread_sem();	
 }
 //测试段错误
 void testCoreDumps(){
@@ -187,8 +188,8 @@ void testCoreDumps(){
 //测试socket
 void testSocket(){
 	TestSocket testSocket;
-	//testSocket.startTestTCP();
-	testSocket.startTestUDP();
+	testSocket.startTestTCP();
+	//testSocket.startTestUDP();
 }
 //测试时间
 void testTime() {
@@ -366,7 +367,66 @@ void testIO(){
 
 
 }
+/*测试大小端*/
+/*
+数据高位在地址低位，大端
+数据低位在地址低位，小端
+*/
+void test_big_small(){
+	int a = 0x12345678;
+	cout << hex << a << endl;
+	char c =  *(char *)&a;
+	cout << hex << (int)c << endl;
+	
+	char * aaa = (char *)malloc(1024);
+	cout << "(char*长度)" <<sizeof(aaa) <<"byte" << endl;
+	cout << "(char长度)" <<sizeof(c) << "byte" << endl;
+}
+/*测试枚举*/
+enum DAY
+{
+      MON = 5, TUE, WED, THU, FRI, SAT, SUN
+};
+void testenum(){
+	DAY day;
+	day = MON;
+	cout << MON << endl;
+	cout << day << endl;
+}
 
+
+/*测试const*/
+void test_const(){
+	const int a = 10;
+	const int b = 100;
+	//a = 15;							//error: assignment of read-only variable ‘a’.
+	//int * pa = &a; *pa = 15;			//warning: invalid conversion from ‘const int*’ to ‘int*’ [-fpermissive].
+	//const int * pa = &a; *pa = 15;	//error: assignment of read-only location ‘* pa’.  
+	//int const * pa = &a; *pa = 15;	//error: assignment of read-only location ‘* pa’	
+	//int * const pa = &a; pa = &b;		//warning: invalid conversion from ‘const int*’ to ‘int*’ [-fpermissive].int * const pa = &a; 
+										//error: assignment of read-only variable ‘pa’.pa = &b;
+	//int * pa = (int *)&a; *pa = 15;	//正常
+	int const * pa = &a; pa = &b;		//正常
+	printf("%d\n",*pa);
+
+}
+
+/*测试volatile*/
+void test_volatile(){
+	Test_volatile test_volatile;
+	test_volatile.test_volatile();
+}
+
+/*测试str*/
+void test_str(){
+	char postData[1024] = {0};
+	strcat(postData,"Postman-Token: 8d987450-0656-415a-bd95-ade1a9ddfd1c\r\n");
+	strcat(postData,"Accept-Encoding: gzip, deflate, br\r\n");
+	strcat(postData,"Connection: keep-alive\r\nContent-Length: 25\r\n\r\n");
+	strcat(postData,"000");
+	cout << postData << endl;
+
+}
 int main()
 {
 	cout << "main" << endl;
@@ -393,7 +453,10 @@ int main()
 	testTime();
 	testSocket();
 #endif
-	testThread();
+	test_big_small();
+
+	//testenum();
+	//testThread();
 	while(1);
 	return 0;
 }
