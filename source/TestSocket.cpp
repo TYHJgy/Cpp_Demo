@@ -127,7 +127,7 @@ static void * pthread_socket_http_tcp(void * data){
 	char buf[4096]={0};
 	int sockfd, n; 
 	char recvline[4096];
-	const char * sendline2 = 
+	const char * sendline = 
 "POST /sportMusic/2.0/rest/music/get?evident HTTP/1.1\r\n\
 Content-Type: application/json\r\n\
 Authorization: OEPAUTH chCode=\"a39d713b25e95b2b\", smartDeviceId=\"11c8478c000068\"\r\n\
@@ -139,46 +139,7 @@ Accept-Encoding: gzip, deflate, br\r\n\
 Content-Length:25\r\n\r\n\
 {\"musicId\":\"60054701920\"}";
 
-	const char * sendline = 
-"POST /sportMusic/2.0/rest/music/get?evident HTTP/1.1\r\n\
-Content-Type: application/json\r\n\
-Authorization: OEPAUTH chCode=\"a39d713b25e95b2b\", smartDeviceId=\"11c8478c000068\"\r\n\
-Accept: */*\r\n\
-Cache-Control: no-cache\r\n\
-Postman-Token: 8d987450-0656-415a-bd95-ade1a9ddfd1c\r\n\
-Host: open.migu.cn:98\r\n\
-Accept-Encoding: gzip, deflate, br\r\n\
-Content-Length:25\r\n\r\n\
-{\"musicId\":\"60054701920\"}";
 
-	const char * sendline1 =
-"POST /sportMusic/2.0/rest/music/get HTTP/1.1\r\n\
-Host: open.migu.cn:98\r\n\
-version:linux_v1.0\r\n\
-sign:D35DBCFCB9C6AD65684A09CC546E81D372CF8EBC145A33131A236EE80EA00168A697112734B69A5CED2D5446449711C8\r\n\
-Authorization:521344C36CD535EF102A44422721B210174C35FE7A79FCD83B0BDE9B971A69F2211324588D6D439D122DB811F68D8FBAD235A890F63D52794FA18287FDDEC10C7AD86D2F16781572055BB6CA725ED5D4AB1FE8A9FA4B6929F88DAF783271969E15A3D661CCFBB696780A820CA95052CF123319C74F44F923E28EA08CD55744A14E8F83C886147ACAC0911240BC9A58DC24498FAA27664F65C527D64741E7BED3C2EE49AB1D15CFD72A1195087E8ED98EC63934302EC77ACA\r\n\
-Content-Type: application/json\r\n\
-User-Agent: PostmanRuntime/7.26.8\r\n\
-Accept: */*\r\n\
-Cache-Control: no-cache\r\n\
-Postman-Token: 8d987450-0656-415a-bd95-ade1a9ddfd1c\r\n\
-Accept-Encoding: gzip, deflate, br\r\n\
-Content-Length:80\r\n\r\n\
-E274BA414858D6B6B4A842F49FEDA3C34E8637DCDF16E131A75117272858A87D2C1EBAE7B76F5EA3";
-
-	const char * sendline11 =
-"POST /sportMusic/2.0/rest/music/get HTTP/1.1\r\n\
-Host: open.migu.cn:98\r\n\
-version:linux_v1.0\r\n\
-sign:D35DBCFCB9C6AD65684A09CC546E81D372CF8EBC145A33131A236EE80EA00168A697112734B69A5CED2D5446449711C8\r\n\
-Content-Type: application/json\r\n\
-User-Agent: PostmanRuntime/7.26.8\r\n\
-Accept: */*\r\n\
-Cache-Control: no-cache\r\n\
-Postman-Token: 8d987450-0656-415a-bd95-ade1a9ddfd1c\r\n\
-Accept-Encoding: gzip, deflate, br\r\n\
-Content-Length:80\r\n\r\n\
-E274BA414858D6B6B4A842F49FEDA3C34E8637DCDF16E131A75117272858A87D2C1EBAE7B76F5EA3";
 
 	struct sockaddr_in servaddr; 
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0))<0)	{

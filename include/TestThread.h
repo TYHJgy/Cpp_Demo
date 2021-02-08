@@ -48,12 +48,12 @@ class TestThread
 		vector<pthread_t> getPtid();
 		void startTest(void);
 		void test_thread_lock(void);
-		void test_pthread_join(void);
+		void test_pthread_join(void);			
 		void test_pthread_exit(void);
-		void test_pthread_cancel(void);
-		void test_pthread_rwlock(void);
-		void test_pthread_cond(void);
-		void test_pthread_sem(void);
+		void test_pthread_cancel(void);			//
+		void test_pthread_rwlock(void);			//测试读写锁
+		void test_pthread_cond(void);			//测试条件变量
+		void test_pthread_sem(void); 			//测试信号量
 	private:
 		unsigned int threadNum;//线程数量
 		vector<pthread_t> ptid;

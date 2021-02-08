@@ -84,7 +84,8 @@ static void * test_pthread_exit_run(void * data){
 }
 
 /*测试 pthread_exit (结束调用线程)*/
-/*线程通过调用pthread_exit函数终止执行，就如同进程在结束时调用exit函数一样。这个函数的作用是，终止调用它的线程并返回一个指向某个对象的指针。*/
+/*线程通过调用pthread_exit函数终止执行，就如同进程在结束时调用exit函数一样。
+这个函数的作用是，终止调用它的线程并返回一个指向某个对象的指针。*/
 void TestThread::test_pthread_exit(){
 
 	pthread_t pid1;
@@ -140,8 +141,6 @@ void TestThread::test_pthread_cancel(){
 	static pthread_t pid2;
 	pthread_create(&pid1,NULL,test_pthread_cancel_run1,NULL);
 	pthread_create(&pid2,NULL,test_pthread_cancel_run2,&pid1);
-
-
 }
 
 static void * test_pthread_rwlock_run1(void * data){
