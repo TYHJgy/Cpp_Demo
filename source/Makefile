@@ -30,6 +30,10 @@ OBJECT := 	Cpp_Demo.o \
 			TestException.o\
 			Test_volatile.o\
 			mydes.o\
+			TestStruct.o\
+			HttpClient.o\
+
+
 			
 LIBS    +=  -pthread 
 FLAGS	+=  -std=gnu++11 #c++11

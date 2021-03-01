@@ -21,6 +21,10 @@
 #include "TestException.h"
 #include "TestTimeAndData.h"
 #include "Test_volatile.h"
+#include "TestStruct.h"
+#include "HttpClient.h"
+
+
 
 using namespace std;
 using std::setw;
@@ -30,6 +34,7 @@ using std::setw;
 void testBaseType() {
 
 	cout << "type: \t\t" << "************size**************" << endl;
+
 	cout << "bool: \t\t" << "所占字节数：" << sizeof(bool);
 	cout << "\t最大值：" << (numeric_limits<bool>::max)();
 	cout << "\t\t最小值：" << (numeric_limits<bool>::min)() << endl;
@@ -77,7 +82,7 @@ void testBaseType() {
 	cout << "type: \t\t" << "************size**************" << endl;
 }
 
-
+//测试对象创建
 void testline() {
 	cout << "enter testline" << endl;
 	Line line;
@@ -126,6 +131,7 @@ void testSmallBox() {
 	box.setSmallWidth(5.0);
 	cout << "Width of box : " << box.getSmallWidth() << endl;
 }
+
 //测试友元函数
 void testFriendMethod() {
 	cout << "enter testFriendMethod" << endl;
@@ -150,6 +156,7 @@ void testPrintData()
 	char c[] = "Hello C++";
 	pd.print(c);
 }
+
 //测试多态、命名空间、接口、抽象类、虚方法
 void testDerivedClass() {
 	cout << "enter testDerivedClass" << endl;
@@ -298,6 +305,7 @@ void testTemplates() {
 	TestTemplate testTemplates;
 	testTemplates.startTest();
 }
+
 //测试++
 void testPlusPlus() {
 	int i;
@@ -430,6 +438,29 @@ void test_str(){
 	cout << postData << endl;
 
 }
+TestStruct testStruct2;
+
+//测试结构体
+void testStruct(){
+	TestStruct testStruct;
+	testStruct.startTest();
+	testStruct2.startTest();
+}
+
+
+//测试堆栈溢出
+void testStackOver(long i){
+	cout << i << endl;
+	i++;
+	testStackOver(i);
+}
+
+//测试HttpClient
+void testHttpClient(){
+	HttpClient httpClient;
+	httpClient.startTest();
+
+}
 int main()
 {
 	cout << "main" << endl;
@@ -455,8 +486,9 @@ int main()
 	testMultiOver();
 	testTime();
 	testSocket();
+	testStackOver(5);
 #endif
-	test_big_small();
+	testHttpClient();
 
 	//testenum();
 	//testThread();

@@ -16,7 +16,7 @@ void TestList::startTest()
 #if 0
     auto it = the_list.begin();//auto 自动类型，等同于list<int>::iterator 
 #else
-    list<int>::iterator it = the_list.begin();//迭代器不是指针，是类模板，表现的 像 指针。
+    list<int>::iterator it = the_list.begin();//迭代器不是指针，是类模板，表现的像指针。
 #endif
     cout << "\nthe_list:" << *it << " " ;
     ++it;

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void test()
+static void test()
 {
 	cout << "enter test" << endl;
 }
@@ -25,10 +25,7 @@ void TestVector::starTest()
 
 	cout << ts.size() << endl;
 	//ts.push_back(th1);//此语句会报错-2020-12-22 09:41:50-gy	
-	th1.join();//此时主线程被阻塞直至子线程执行结束。
-
-
-	
+	th1.join();//此时主线程被阻塞直至子线程执行结束。	
 }
 
 

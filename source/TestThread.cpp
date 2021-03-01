@@ -208,12 +208,12 @@ static void * test_pthread_cond_run2(void *data){
 	struct timeval now;
 	
 	gettimeofday(&now, NULL);
-	outtime.tv_sec = now.tv_sec+3;		
+	outtime.tv_sec = now.tv_sec+5;		
 
 	pthread_mutex_lock(&mutex);
 		
-	//pthread_cond_wait(&cond, &mutex);
-	pthread_cond_timedwait(&cond, &mutex, &outtime);
+	pthread_cond_wait(&cond, &mutex);
+	//pthread_cond_timedwait(&cond, &mutex, &outtime);
 	
 	DEBUG("enter2");
 	pthread_mutex_unlock(&mutex);
@@ -260,7 +260,7 @@ void TestThread::test_pthread_sem(){
 
     while (1) {
         sem_post(&sem);
-        sleep(1);
+        sleep(2);
     }
 }
 
