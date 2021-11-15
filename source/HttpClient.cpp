@@ -118,7 +118,7 @@ Content-Length:25\r\n\r\n\
 
 
 	close(sockfd); 
-
+	return NULL;
 }
 
 void HttpClient::startTest()

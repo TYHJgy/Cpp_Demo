@@ -24,7 +24,7 @@ static void * linux_thread_run(void * data)
 	}
 	const char * c = "123456";
 	cout << c[0]<<endl;
-	//return NULL;
+	return NULL;
 }
 
 unsigned int TestThread::getThreadNum(){
@@ -59,6 +59,7 @@ static void * test_thread_lock_run(void * data)
 		sleep(1);
 	}	
 	pthread_mutex_unlock(&mutex);	
+	return NULL;
 }
 
 /*测试线程同步*/
@@ -100,7 +101,7 @@ static void * test_pthread_join_run1(void * data){
 		DEBUG("i=%d",i);
 		sleep(1);
 	}
-
+	return NULL;
 }
 static void * test_pthread_join_run2(void * data){
 	DEBUG("enter");
@@ -108,6 +109,7 @@ static void * test_pthread_join_run2(void * data){
 	sleep(1);
 	pthread_join(pid,NULL);
 	DEBUG("enter2");
+	return NULL;
 }
 
 /*测试   int pthread_join(pthread_t thread, void **retval); */
@@ -125,6 +127,7 @@ static void * test_pthread_cancel_run1(void * data){
 		DEBUG("i=%d",i);
 		sleep(1);
 	}
+	return NULL;
 }
 static void * test_pthread_cancel_run2(void * data){
 	DEBUG("enter");
@@ -132,6 +135,7 @@ static void * test_pthread_cancel_run2(void * data){
 	pthread_t pid = *(pthread_t*)data;
 	pthread_cancel(pid);
 	DEBUG("enter2");
+	return NULL;
 }
 
 /*测试   int pthread_cancel(pthread_t thread); */
@@ -151,6 +155,7 @@ static void * test_pthread_rwlock_run1(void * data){
 		sleep(1);
 	}	
 	pthread_rwlock_unlock(&rwlock);
+	return NULL;
 }
 
 
@@ -163,7 +168,7 @@ static void * test_pthread_rwlock_run2(void * data){
 		sleep(1);
 	}	
 	pthread_rwlock_unlock(&rwlock);
-
+	return NULL;
 }
 
 static void * test_pthread_rwlock_run3(void * data){
@@ -174,7 +179,7 @@ static void * test_pthread_rwlock_run3(void * data){
 		sleep(1);
 	}
 	pthread_rwlock_unlock(&rwlock);
-
+	return NULL;
 }
 
 void TestThread::test_pthread_rwlock(){
@@ -200,7 +205,7 @@ static void * test_pthread_cond_run1(void *data){
 	pthread_cond_signal(&cond);
 	pthread_mutex_unlock(&mutex);
 	DEBUG("enter2");
-
+	return NULL;
 }
 static void * test_pthread_cond_run2(void *data){
 	DEBUG("enter");
@@ -217,7 +222,7 @@ static void * test_pthread_cond_run2(void *data){
 	
 	DEBUG("enter2");
 	pthread_mutex_unlock(&mutex);
-
+	return NULL;
 }
 
 void TestThread::test_pthread_cond(){	
@@ -239,7 +244,7 @@ static void * test_pthread_sem_run(void * res){
 		strcat(msg, "a");
 		DEBUG("resource changed with value: %s\n", msg);
 	}
-
+	return NULL;
 }
 void TestThread::test_pthread_sem(){
 

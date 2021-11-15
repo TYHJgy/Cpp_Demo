@@ -55,6 +55,7 @@ namespace myShape {
         }        
         int area2() {
             cout << "Triangle area2" << endl;
+			return 0;
         }
     };
 

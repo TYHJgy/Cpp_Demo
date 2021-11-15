@@ -487,8 +487,9 @@ int main()
 	testTime();
 	testSocket();
 	testStackOver(5);
-#endif
 	testHttpClient();
+#endif
+	testSocket();
 
 	//testenum();
 	//testThread();

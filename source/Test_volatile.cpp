@@ -7,6 +7,7 @@ volatile int b = 10;
 void * test_volatile_run1(void * data){
 	i++;
 	b++;
+	return NULL;
 }
 void * test_volatile_run2(void * data){
 
@@ -15,6 +16,7 @@ void * test_volatile_run2(void * data){
 	sleep(1);
 	int k = i;	//(2)语句
 	DEBUG("k=%d",k);
+	return NULL;
 }
 
 

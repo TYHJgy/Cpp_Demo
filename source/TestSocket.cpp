@@ -47,78 +47,80 @@ static void * pthread_socket_service_tcp(void * data){
 	int sfd = socket(AF_INET,SOCK_STREAM,0);
     if (sfd == -1){
 		DEBUG("socket faile");
-		return  NULL;
+		return NULL;
 	}
 	memset(&my_addr, 0, sizeof(struct sockaddr_in));
-	my_addr.sin_family  = AF_INET;//使用IPv4地址
+	my_addr.sin_family  = AF_INET;		//使用IPv4地址
 	my_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-	my_addr.sin_port = htons(6666);  //端口
+	my_addr.sin_port = htons(6666);  	//端口
 	if(bind(sfd,(struct sockaddr *) &my_addr,sizeof(struct sockaddr_in))==-1){
 		_errno = errno;
 		DEBUG("bind faile,%s",strerror(_errno));
-		return  NULL;
+		return NULL;
 	}
 	//进入监听状态，等待用户发起请求
 	if(listen(sfd,10)==-1){
 		_errno = errno;
 		DEBUG("listen faile,%s",strerror(_errno));
-		return  NULL;
+		return NULL;
 	}
 	//接收客户端请求
 	connfd = accept(sfd, (struct sockaddr*)NULL, NULL);
 	if(connfd==-1){
 		_errno = errno;
 		DEBUG("accept faile,%s",strerror(_errno));
-		return  NULL;
+		return NULL;
 	}
 	read(connfd,buf,64);
 	send(connfd, buf, strlen(buf), 0);
 	close(connfd); 
 	close(sfd);
 	DEBUG("rec=%s",buf);
+	return NULL;
 }
 static void * pthread_socket_client_tcp(void * data){
-		char buf[1024]={0};
-		int sockfd, n; 
-		char recvline[4096];
-		const char * sendline = "POST";
-	
-		struct sockaddr_in servaddr; 
-		if((sockfd = socket(AF_INET, SOCK_STREAM, 0))<0)	{
-			printf("create socket error: %s(errno: %d)\n", strerror(errno),errno); 
-			exit(0); 
-		} 
-		memset(&servaddr, 0, sizeof(servaddr));
-		servaddr.sin_family = AF_INET; 
-		servaddr.sin_port = htons(6666); 
-		if(inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr) <= 0)
-		{ 
-			printf("inet_pton error for %s\n",(char*)data); 
-			exit(0); 
-		} 
-		if(connect(sockfd, (struct sockaddr*)&servaddr, sizeof(struct sockaddr)) < 0)
-		{ 
-			printf("connect error: %s(errno: %d)\n",strerror(errno),errno); 
-			exit(0); 
-		} 
-		DEBUG("sendline=%s",sendline);
-		if(send(sockfd, sendline, strlen(sendline), 0) < 0) 
-		{ 
-			DEBUG("send msg error: %s(errno: %d)\n", strerror(errno), errno);
-			exit(0); 
-		}else{
-			DEBUG("send success");
-		}
-		if(read(sockfd,buf,1024) < 0) 
-		{ 
-			DEBUG("read msg error: %s(errno: %d)\n", strerror(errno), errno);
-			exit(0); 
-		}else{
-			DEBUG("read success");
-		}
-		DEBUG("buf=%s",buf);
+	char buf[1024]={0};
+	int sockfd, n; 
+	char recvline[4096];
+	const char * sendline = "POST";
 
-		close(sockfd); 
+	struct sockaddr_in servaddr; 
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0))<0)	{
+		printf("create socket error: %s(errno: %d)\n", strerror(errno),errno); 
+		exit(0); 
+	} 
+	memset(&servaddr, 0, sizeof(servaddr));
+	servaddr.sin_family = AF_INET; 
+	servaddr.sin_port = htons(6666); 
+	if(inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr) <= 0)
+	{ 
+		printf("inet_pton error for %s\n",(char*)data); 
+		exit(0); 
+	} 
+	if(connect(sockfd, (struct sockaddr*)&servaddr, sizeof(struct sockaddr)) < 0)
+	{ 
+		printf("connect error: %s(errno: %d)\n",strerror(errno),errno); 
+		exit(0); 
+	} 
+	DEBUG("sendline=%s",sendline);
+	if(send(sockfd, sendline, strlen(sendline), 0) < 0) 
+	{ 
+		DEBUG("send msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("send success");
+	}
+	if(read(sockfd,buf,1024) < 0) 
+	{ 
+		DEBUG("read msg error: %s(errno: %d)\n", strerror(errno), errno);
+		exit(0); 
+	}else{
+		DEBUG("read success");
+	}
+	DEBUG("buf=%s",buf);
+
+	close(sockfd); 
+	return  NULL;
 
 
 }
@@ -209,6 +211,7 @@ Content-Length:25\r\n\r\n\
 
 
 	close(sockfd); 
+	return  NULL;
 
 }
 
@@ -260,6 +263,7 @@ static void * pthread_socket_service_udp(void * data){
 
 	//关闭socket对象
 	close(sockfd);
+	return  NULL;
 }
 static void * pthread_socket_client_udp(void * data){
 	int sockfd = socket(AF_INET,SOCK_DGRAM,0);
@@ -294,6 +298,7 @@ static void * pthread_socket_client_udp(void * data){
 	DEBUG("the ipaddr = %#x", addr.sin_addr.s_addr);
 	DEBUG("the port = %d", addr.sin_port);
 	close(sockfd);
+	return  NULL;
 }
 
 void TestSocket::startTestTCP(){
@@ -301,8 +306,8 @@ void TestSocket::startTestTCP(){
 	pthread_t pt1,pt2,pt3;
 	pthread_create(&pt1,NULL,pthread_socket_service_tcp,NULL);
 	sleep(2);
-	//pthread_create(&pt2,NULL,pthread_socket_client_tcp,NULL);
-	pthread_create(&pt3,NULL,pthread_socket_http_tcp,NULL);
+	pthread_create(&pt2,NULL,pthread_socket_client_tcp,NULL);
+//	pthread_create(&pt3,NULL,pthread_socket_http_tcp,NULL);
 }
 
 
