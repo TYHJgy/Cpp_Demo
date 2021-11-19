@@ -248,8 +248,9 @@ void testCoreDumps(){
 //测试socket
 void testSocket(){
 	TestSocket testSocket;
-	testSocket.startTestTCP();
+//	testSocket.startTestTCP();
 	//testSocket.startTestUDP();
+	testSocket.startHttp();
 }
 //测试时间
 void testTime() {

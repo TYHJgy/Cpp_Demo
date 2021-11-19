@@ -9,6 +9,8 @@ Linux ubuntu 4.15.0-128-generic #131~16.04.1-Ubuntu SMP Wed Dec 9 17:33:47 UTC 2
 1、cd source
 2、make run
 
+程序入口在Cpp_demo.cpp文件
+
 
 
 

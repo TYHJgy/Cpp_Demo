@@ -36,6 +36,64 @@ static int Decode_postdata(char *result,struct MemoryStruct chunk)
 	return 0;
 }
 
+static void * pthread_http_server_tcp(void * data){
+	DEBUG("enter");
+
+	struct sockaddr_in my_addr;
+	int connfd = 0;
+	char buf[1024]={0};
+	//
+	int sfd = socket(AF_INET,SOCK_STREAM,0);
+    if (sfd == -1){
+		DEBUG("socket faile");
+		return NULL;
+	}
+	memset(&my_addr, 0, sizeof(struct sockaddr_in));
+	my_addr.sin_family  = AF_INET;		//使用IPv4地址
+	my_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
+	my_addr.sin_port = htons(9999);  	//端口
+	if(bind(sfd,(struct sockaddr *) &my_addr,sizeof(struct sockaddr_in))==-1){
+		_errno = errno;
+		DEBUG("bind faile,%s",strerror(_errno));
+		return NULL;
+	}
+	//进入监听状态，等待用户发起请求
+	if(listen(sfd,10)==-1){
+		_errno = errno;
+		DEBUG("listen faile,%s",strerror(_errno));
+		return NULL;
+	}
+	//接收客户端请求
+	connfd = accept(sfd, (struct sockaddr*)NULL, NULL);
+	if(connfd==-1){
+		_errno = errno;
+		DEBUG("accept faile,%s",strerror(_errno));
+		return NULL;
+	}
+	read(connfd,buf,1024);
+	DEBUG("rec=%s",buf);
+	
+	const char * sendline = "HTTP/1.1 200 OK\r\n\
+Date: Tue, 16 Nov 2021 06:48:03 GMT\r\n\
+Server: Apache\r\n\
+Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT\r\n\
+ETag: \"51-47cf7e6ee8400\"\r\n\
+Accept-Ranges: bytes\r\n\
+Content-Length: 81\r\n\
+Cache-Control: max-age=86400\r\n\
+Expires: Wed, 17 Nov 2021 06:48:03 GMT\r\n\
+Connection: Keep-Alive\r\n\
+Content-Type: text/html\r\n\r\n\
+<html>\r\n\
+<meta http-equiv=\"refresh\" content=\"0;url=http://www.baidu.com/\">\r\n\
+</html>";
+	send(connfd, sendline, strlen(sendline), 0);
+	close(connfd); 
+	close(sfd);
+	DEBUG("sendline=%s",sendline);
+	return NULL;
+}
+
 
 static void * pthread_socket_service_tcp(void * data){
 	DEBUG("enter");
@@ -52,7 +110,7 @@ static void * pthread_socket_service_tcp(void * data){
 	memset(&my_addr, 0, sizeof(struct sockaddr_in));
 	my_addr.sin_family  = AF_INET;		//使用IPv4地址
 	my_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-	my_addr.sin_port = htons(6666);  	//端口
+	my_addr.sin_port = htons(9999);  	//端口
 	if(bind(sfd,(struct sockaddr *) &my_addr,sizeof(struct sockaddr_in))==-1){
 		_errno = errno;
 		DEBUG("bind faile,%s",strerror(_errno));
@@ -120,12 +178,12 @@ static void * pthread_socket_client_tcp(void * data){
 	DEBUG("buf=%s",buf);
 
 	close(sockfd); 
-	return  NULL;
+	return NULL;
 
 
 }
-//socket实现http
-static void * pthread_socket_http_tcp(void * data){
+//socket实现http client
+static void * pthread_http_client_tcp(void * data){
 	char buf[4096]={0};
 	int sockfd, n; 
 	char recvline[4096];
@@ -307,7 +365,17 @@ void TestSocket::startTestTCP(){
 	pthread_create(&pt1,NULL,pthread_socket_service_tcp,NULL);
 	sleep(2);
 	pthread_create(&pt2,NULL,pthread_socket_client_tcp,NULL);
-//	pthread_create(&pt3,NULL,pthread_socket_http_tcp,NULL);
+
+
+}
+void TestSocket::startHttp(){
+	pthread_t pt;
+
+#if 1
+	pthread_create(&pt,NULL,pthread_http_server_tcp,NULL);
+#else
+	pthread_create(&pt,NULL,pthread_http_client_tcp,NULL);
+#endif
 }
 
 
